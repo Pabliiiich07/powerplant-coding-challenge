@@ -1,7 +1,98 @@
 # powerplant-coding-challenge
 
+## Author
+Pablo Sancho Saiz
 
-## Welcome !
+This repository is a personal project for educational purposes and it is not intended to be used for any commercial use.
+
+## Execution steps
+
+1. **Clone the repository**
+   ```
+   git clone https://github.com/Pabliiiich07/powerplant-coding-challenge.git
+   ```
+
+2. **Install dependencies**
+   ```
+   cd powerplant-coding-challenge
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+3. **Run the application**
+    1. For API usage
+   ```  
+   uvicorn code.main:app --reload --port 8888
+   ```
+
+    2. For local execution
+   ```
+   python code/main.py
+   ```
+
+4. **Test the application**
+   ```
+   curl -X POST http://localhost:8888/productionplan -H "Content-Type: application/json" -d @example_payloads/payload3.json
+   ```
+## Input JSON Example
+
+```json
+{
+  "load": 200,
+  "fuels":
+  {
+    "gas(euro/MWh)": 13.4,
+    "kerosine(euro/MWh)": 50.8,
+    "co2(euro/ton)": 20,
+    "wind(%)": 60
+  },
+  "powerplants": [
+    {
+      "name": "windturbine1",
+      "type": "windturbine",
+      "efficiency": 1,
+      "pmin": 0,
+      "pmax": 150
+    },
+    {
+      "name": "gasfired1",
+      "type": "gasfired",
+      "efficiency": 0.53,
+      "pmin": 100,
+      "pmax": 460
+    },
+    {
+      "name": "turbojet1",
+      "type": "turbojet",
+      "efficiency": 0.3,
+      "pmin": 0,
+      "pmax": 16
+    }
+  ]
+}
+```
+
+## Output JSON Example
+
+```json
+[
+    {
+        "name": "windturbine1",
+        "p": 90
+    },
+    {
+        "name": "gasfired1",
+        "p": 110
+    },
+    {
+        "name": "turbojet1",
+        "p": 0
+    }
+]
+```
+
+## Problem description
 
 Below you can find the description of a coding challenge that we ask people to perform when applying for a job in our team.
 
