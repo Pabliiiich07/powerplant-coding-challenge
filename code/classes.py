@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from typing import List, Dict, Any
 import json
 import logging
-from pydantic import BaseModel
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %H:%M:%S', level=logging.INFO)
+logging.info("Starting classes...")
 
 @dataclass
 class PricePerFuel:
@@ -76,47 +76,6 @@ class PowerPlant:
         else:
             logging.error(f"Unknown power plant type: {self.type}")
             raise ValueError(f"Unknown power plant type: {self.type}")
-
-
-class PowerPlantModel(BaseModel):
-    name: str
-    type: str
-    efficiency: float
-    pmin: float
-    pmax: float
-
-class PricePerFuelModel(BaseModel):
-    gas_euro_per_mwh: float
-    kerosine_euro_per_mwh: float
-    co2_euro_per_ton: float
-    wind_percentage: float    
-
-class PayloadModel(BaseModel):
-    load: float
-    fuels: PricePerFuelModel
-    powerplants: list[PowerPlantModel]
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "load": 200,
-                "fuels": {
-                    "gas(euro/MWh)": 13.4,
-                    "kerosine(euro/MWh)": 50.8,
-                    "co2(euro/ton)": 20,
-                    "wind(%)": 60
-                },
-                "powerplants": [
-                    {
-                        "name": "windturbine1",
-                        "type": "windturbine",
-                        "efficiency": 1,
-                        "pmin": 0,
-                        "pmax": 150
-                    }
-                ]
-            }
-        }
     
 @dataclass
 class Payload:
