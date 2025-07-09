@@ -1,47 +1,96 @@
-# powerplant-coding-challenge
+# PowerPlant Coding Challenge
 
 ## Author
+
 Pablo Sancho Saiz
 
 This repository is a personal project for educational purposes and it is not intended to be used for any commercial use.
 
-## Execution steps
+## Quick Start with Docker
+
+### Option 1: Using the deployment script (Recommended)
+
+```bash
+# Make the script executable
+chmod +x deploy.sh
+
+# Run the deployment
+./deploy.sh
+```
+
+### Option 2: Manual Docker commands
+
+```bash
+# Build the Docker image
+docker build -t powerplant-api .
+
+# Run the container
+docker run -d --name powerplant-api -p 8888:8888 powerplant-api
+```
+
+### Option 3: Development mode
+
+```bash
+# Run with volume mounting for development
+docker run -d --name powerplant-api -p 8888:8888 -v $(pwd):/app powerplant-api
+```
+
+## Local Development (without Docker)
+
+### Prerequisites
+- Python 3.8 or higher
+- pip
+
+### Installation
 
 1. **Clone the repository**
-   ```
-   git clone https://github.com/Pabliiiich07/powerplant-coding-challenge.git
-   ```
+```bash
+git clone https://github.com/Pabliiiich07/powerplant-coding-challenge.git
+cd powerplant-coding-challenge
+```
 
 2. **Install dependencies**
-   ```
-   cd powerplant-coding-challenge
-   python -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
 3. **Run the application**
-    1. For API usage
-   ```  
-   uvicorn code.main:app --reload --port 8888
-   ```
+```bash
+# For API usage
+uvicorn code.main:app --reload --port 8888
 
-    2. For local execution
-   ```
-   python code/main.py
-   ```
+# For local execution
+python code/main.py
+```
 
-4. **Test the application**
-   ```
-   curl -X POST http://localhost:8888/productionplan -H "Content-Type: application/json" -d @example_payloads/payload3.json
-   ```
+## API Usage
+
+### Endpoint
+- **URL**: `http://localhost:8888/productionplan`
+- **Method**: POST
+- **Content-Type**: application/json
+
+### Test the API
+
+```bash
+# Test with example payload
+curl -X POST http://localhost:8888/productionplan \
+  -H "Content-Type: application/json" \
+  -d @example_payloads/payload1.json
+```
+
+### API Documentation
+- **Swagger UI**: http://localhost:8888/docs
+- **ReDoc**: http://localhost:8888/redoc
+
 ## Input JSON Example
 
 ```json
 {
   "load": 200,
-  "fuels":
-  {
+  "fuels": {
     "gas(euro/MWh)": 13.4,
     "kerosine(euro/MWh)": 50.8,
     "co2(euro/ton)": 20,
@@ -91,6 +140,59 @@ This repository is a personal project for educational purposes and it is not int
     }
 ]
 ```
+
+## Project Structure
+
+```
+powerplant-coding-challenge/
+├── code/
+│   ├── __init__.py
+│   ├── classes.py          # Data models and business logic
+│   └── main.py            # FastAPI application
+├── example_payloads/
+│   ├── payload1.json      # Example input payloads
+│   ├── payload2.json
+│   ├── payload3.json
+│   └── response3.json     # Example output
+├── output/                # Generated output files
+├── Dockerfile            # Docker configuration
+├── requirements.txt      # Python dependencies
+├── deploy.sh            # Deployment script
+└── README.md            # This file
+```
+
+## Future upgrades
+For a future production deployment, it will be necessary to complete the development of the CO2 consumption feature and to carry out thorough testing across all steps of the program. I have implemented some basic tests, but given the estimated 4-hour time limit, my priority was to deliver a functional program.
+
+## Problem Description
+
+This is a coding challenge for calculating optimal power plant production plans. The goal is to determine how much power each power plant should produce to meet a given load while minimizing costs.
+
+### Key Features
+
+- **Merit Order**: Power plants are activated based on cost efficiency
+- **Load Balancing**: Total production must exactly match the demand
+- **Constraints**: Each power plant has minimum and maximum production limits
+- **Fuel Costs**: Different fuel types (gas, kerosine) have different costs
+- **Wind Integration**: Wind turbines have zero fuel cost but variable output
+
+### Power Plant Types
+
+1. **Gas-fired**: Uses gas fuel, moderate efficiency (~50%)
+2. **Turbojet**: Uses kerosine fuel, lower efficiency (~30%)
+3. **Wind turbine**: Zero fuel cost, output depends on wind percentage
+
+## Acceptance Criteria
+
+✅ **API exposed on port 8888**  
+✅ **README.md with build and launch instructions**  
+✅ **Dockerfile for easy deployment**  
+✅ **Proper error handling and validation**  
+✅ **Example payloads and responses**
+
+## License
+
+This project is for educational purposes only.
 
 ## Problem description
 
