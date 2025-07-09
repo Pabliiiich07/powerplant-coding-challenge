@@ -7,32 +7,12 @@ Pablo Sancho Saiz
 This repository is a personal project for educational purposes and it is not intended to be used for any commercial use.
 
 ## Quick Start with Docker
-
-### Option 1: Using the deployment script (Recommended)
-
-```bash
-# Make the script executable
-chmod +x deploy.sh
-
-# Run the deployment
-./deploy.sh
-```
-
-### Option 2: Manual Docker commands
-
 ```bash
 # Build the Docker image
 docker build -t powerplant-api .
 
 # Run the container
 docker run -d --name powerplant-api -p 8888:8888 powerplant-api
-```
-
-### Option 3: Development mode
-
-```bash
-# Run with volume mounting for development
-docker run -d --name powerplant-api -p 8888:8888 -v $(pwd):/app powerplant-api
 ```
 
 ## Local Development (without Docker)
@@ -66,18 +46,6 @@ python code/main.py
 ```
 
 ---
-
-## Run with Docker
-
-You can also build and run the API using Docker:
-
-```bash
-# Build the Docker image
-docker build -t powerplant-api .
-
-# Run the container (with output volume)
-docker run -d --name powerplant-api -p 8888:8888
-```
 
 ## API Usage
 
