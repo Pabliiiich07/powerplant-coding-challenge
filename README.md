@@ -65,6 +65,20 @@ uvicorn code.main:app --reload --port 8888
 python code/main.py
 ```
 
+---
+
+## Run with Docker
+
+You can also build and run the API using Docker:
+
+```bash
+# Build the Docker image
+docker build -t powerplant-api .
+
+# Run the container (with output volume)
+docker run -d --name powerplant-api -p 8888:8888
+```
+
 ## API Usage
 
 ### Endpoint
